@@ -1,0 +1,414 @@
+:root{
+  --bg1:#0b0b12; --bg2:#1a0f1f; --text:#fff; --muted:#d6cfe0;
+  --pink1:#ff3d9b; --pink2:#ff78c6;
+}
+/* ========== RESET / BASE ========== */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  background:#0b0b12;color:var(--text);overflow:hidden
+}
+/* ========== SCENES ========== */
+.scene{
+  position:fixed; inset:0; display:grid; place-items:center;
+  opacity:0; pointer-events:none; transition:opacity .6s ease
+}
+.scene.active{opacity:1; pointer-events:auto}
+/* ========== SCENE 1: HEART LOADER ========== */
+#scene1{
+  background:radial-gradient(60vmin 60vmin at 50% 40%, #000000 0, #000000 40%, #150917 100%)
+}
+#scene1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+#pinkboard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+#scene1 p {
+  position: absolute;
+  left: 50%;
+  bottom: 42px;            /* distance from bottom — tweak this number if you want more/less space */
+  transform: translateX(-50%);
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 0 10px #ffffff66;
+  z-index: 1200;           /* make sure it's above the canvas */
+  pointer-events: none;
+}
+
+/* mobile: give a little extra bottom space so it doesn't clash with nav bars */
+@media (max-width: 540px) {
+  #scene1 p {
+    bottom: 22px;          /* safer on phones — reduce if you prefer */
+    font-size: 14px;
+  }
+}
+/* ========== SCENE 2: INTRO ========== */
+#scene2{
+  background:
+    radial-gradient(80vmax 80vmax at 70% 10%, #ff007033, transparent 40%),
+    radial-gradient(80vmax 80vmax at 20% 90%, #7600ff33, transparent 40%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+.intro{width:min(720px,92vw); text-align:center; display:flex; flex-direction:column; gap:18px; align-items:center}
+.photo{width:180px;height:180px;border-radius:50%;object-fit:cover;box-shadow:0 12px 40px #ff4da455}
+.headline{font-weight:900;font-size:clamp(24px,6vw,40px);color:#ffd3f0;text-shadow:0 2px 18px #ff4da455}
+.sub{color:var(--muted)}
+.pill{border:0;border-radius:999px;padding:14px 24px;cursor:pointer;font-weight:900}
+.cta,.primary{background:linear-gradient(90deg,var(--pink1),var(--pink2));color:#fff;box-shadow:0 16px 36px #ff4da455}
+/* ========== COMMON BG (SCENE 3/4/5) ========== */
+.hearts-bg{
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><g opacity=".12"><path d="M60 42 c-8 -12 -28 -10 -28 8 0 14 14 22 28 34 14 -12 28 -20 28 -34 0 -18 -20 -20 -28 -8z" fill="white"/></g></svg>') repeat,
+    linear-gradient(#ffffff12 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff12 1px,transparent 1px),
+    radial-gradient(120vmax 120vmax at 80% 15%, #ff007022, transparent 35%),
+    radial-gradient(120vmax 120vmax at 15% 90%, #7600ff22, transparent 35%),
+    linear-gradient(180deg, #140a17, #09070f);
+  background-size:120px 120px,80px 80px,80px 80px,auto,auto,auto;
+}
+
+/* ========== STAGE SHELL & CONTROLS ========== */
+.stage{
+  position:relative; width:min(1100px,96vw); height:min(780px,92vh);
+  border-radius:22px; background:#0e071199; backdrop-filter:blur(6px);
+  box-shadow:0 40px 120px #0008, inset 0 0 0 1px #ffffff10; overflow:hidden
+}
+.controls{position:absolute;left:0;right:0;bottom:22px;display:flex;gap:12px;justify-content:center;z-index:10}
+/* ========== BUNTING (SCENE 3) ========== */
+.bunting{position:fixed;left:0;right:0;top:0;height:120px;pointer-events:none;opacity:0;z-index:5}
+.bunting svg{width:100%;height:120px;display:block}
+#flags .f:nth-child(odd){fill:#ffd93d} #flags .f:nth-child(even){fill:#6bc5ff}
+.streamer{position:absolute;top:0;width:10px;height:120px;background:repeating-linear-gradient(180deg,#96f 0 14px,#96f 14px 28px,transparent 28px 42px)}
+.streamer.left{left:8px;transform:rotate(8deg)} .streamer.right{right:8px;transform:rotate(-8deg)}
+/* ========== SCENE 3: CAKE ========== */
+.plate{position:absolute;inset:auto 0 64px;margin:auto;width:min(860px,96%);height:560px;display:grid;place-items:center;z-index:1}
+.cake-illustration{position:absolute;left:50%;transform:translateX(-50%);bottom:-194px;width:min(560px,84vw);z-index:2}
+.cake-img{width:100%;display:block;border-radius:12px;filter:drop-shadow(0 24px 60px rgba(0,0,0,.28))}
+.cake-flame {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  width: 6%;
+  max-width: 40px;
+  height: auto;
+  bottom: calc(44% + 9px); /* adjusts relative to cake height */
+  z-index: 3;
+  pointer-events: none;
+  display: none;
+}
+
+.big-title{position:absolute;left:0;right:0;top:5%;text-align:center;font-weight:1000;font-size:clamp(28px,7.2vw,56px);color:#ffd0f6;text-shadow:0 6px 24px #ff6bb366;opacity:0;transform:translateY(-6px);transition:opacity .6s,transform .6s;z-index:10}
+@media (max-width:540px){.big-title{top:26%}}
+/* ========== EFFECT CANVASES ========== */
+#confetti,#fireworks{position:fixed;inset:0;pointer-events:none}
+#confetti{z-index:1000} #fireworks{z-index:1500}
+/* ========== DECOR PULSE WHEN ON ========== */
+.decor-on .hearts-bg{animation:heartsPulse 1.8s ease-in-out infinite}
+@keyframes heartsPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}
+/* ========== SCENE 4: BALLOONS ========== */
+.balloon-field{position:absolute;inset:0;padding:24px;display:grid;place-items:center;z-index:2}
+.balloon-field .hint{
+  position:absolute;bottom:110px;left:0;right:0;text-align:center;
+  color:#ffe3fb;font-weight:700;text-shadow:0 6px 18px #ff6bb333
+}
+.balloon{
+  position:absolute;width:110px;height:auto;transform:translate(-50%,-50%);
+  animation:floatY 5.5s ease-in-out infinite;filter:drop-shadow(0 14px 30px #0007);cursor:pointer
+}
+@keyframes floatY{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-20px)}}
+.balloon.pop{animation:popOut .45s ease forwards;filter:brightness(1.2) drop-shadow(0 18px 40px #0008)}
+@keyframes popOut{0%{transform:translate(-50%,-50%) scale(1)}60%{transform:translate(-50%,-50%) scale(1.2) rotate(8deg)}100%{transform:translate(-50%,-50%) scale(.1);opacity:0}}
+/* ========== SCENE 4: SCRATCH CARD ========== */
+.scratch-wrap{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  z-index:5; display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.scratch-card{
+  position:relative; border-radius:18px; overflow:hidden;
+  background:#120915; box-shadow:0 24px 80px #0009, inset 0 0 0 1px #ffffff22;
+  /* width/height set in JS to match image natural pixels */
+}
+.scratch-card img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:fill; image-rendering:auto; display:block;
+}
+#scratchCanvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none}
+.scratch-tip{
+  position:static; transform:none; background:none;
+  color:#ffd7fb; font-weight:700; text-shadow:0 2px 10px #0006;
+}
+/* ========== SCENE 5: SPECIAL MESSAGE (BOOK) ========== */
+/* Move card upward in Scene 5 */
+/* Center Scene 5 perfectly */
+#scene5 .stage{
+  display:flex;
+  justify-content:center;   /* center horizontally */
+  align-items:center;       /* center vertically */
+  padding: 100px;;                /* remove any push */
+}
+/* Ensure wrapper doesn't push down */
+.msg-wrap{
+  margin-top:0 !important;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.msg-title{
+  font-weight:900;text-align:center;margin-bottom:16px;
+  font-size:clamp(22px,4.5vw,34px);color:#ffd7fb;text-shadow:0 4px 14px #0006
+}
+/* Card size & layout (smaller, tidy) */
+.msg-card.book{
+  width:min(380px,92vw);
+  background:#1a0f1f; border-radius:18px;
+  box-shadow:0 20px 60px #0009,inset 0 0 0 1px #ffffff22;
+  position:relative; padding:0; overflow:visible;
+  display:flex; flex-direction:column; align-items:stretch;
+  perspective:1200px; /* for 3D cover */
+}
+/* Cover button on top before open */
+.cover{
+  position:absolute; inset:0; border:0; padding: 0px;; background:transparent; cursor:pointer;
+  transform-origin:left center; transform-style:preserve-3d;
+  transition:transform .9s cubic-bezier(.2,.7,.2,1); z-index:3
+}
+/* Show full PNG (no crop) */
+.cover-img{
+  width:100%; height:auto; display:block;
+  object-fit:contain; background:#1a0f1f; border-radius:18px
+}
+.cover::after{
+  content:""; position:absolute; inset:0; border-radius:18px; pointer-events:none;
+  background:linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,0) 40%, rgba(0,0,0,.25));
+  opacity:.8; transition:opacity .6s ease
+}
+.cover-tap{
+  position:absolute; left:50%; bottom:12px; transform:translateX(-50%);
+  background:#0009; color:#fff; font-weight:700; padding:6px 10px; border-radius:999px
+}
+/* Inside message panel (scrollable) */
+.msg-body{
+  opacity:0; transform:translateY(8px);
+  transition:opacity .45s ease .45s, transform .45s ease .45s;
+  padding:16px 16px 18px; background:#1a0f1f;
+  border-top:1px solid #ffffff1c;
+  border-bottom-left-radius:18px; border-bottom-right-radius:18px;
+  max-height:38vh;           /* scroll cap; JS will refine */
+  overflow-y:auto; overscroll-behavior:contain;
+  text-align:center;
+}
+.msg-body h3{ color:#fff; margin-bottom:8px; font-size:clamp(18px,4vw,22px) }
+.msg-body p{ color:#e8dbf1; line-height:1.6; font-size:clamp(14px,3.6vw,16px) }
+/* Scrollbar styling */
+.msg-body::-webkit-scrollbar{width:10px}
+.msg-body::-webkit-scrollbar-track{background:#120915;border-radius:12px}
+.msg-body::-webkit-scrollbar-thumb{background:#7b4aa8;border-radius:12px}
+.msg-body::-webkit-scrollbar-thumb:hover{background:#9b6cd0}
+@supports (scrollbar-color:auto){
+  .msg-body{scrollbar-color:#7b4aa8 #120915; scrollbar-width:thin;}
+}
+/* OPEN STATE */
+.book.open .cover{transform:rotateY(-180deg)}
+.book.open .cover::after{opacity:0}
+.book.open .msg-body{opacity:1; transform:translateY(0)}
+/* ===== Scene 6 ===== */
+#scene6 .stage{
+  display:flex; align-items:center; justify-content:center;
+}
+.s6-wrap{ position:relative; width:min(520px,92vw); text-align:center; }
+
+.s6-bunting{ position:fixed; left:0; right:0; top: 0px; height:120px; pointer-events:none; opacity:.95; }
+.s6-bunting svg{ width:100%; height:120px; display:block; }
+.s6-bunting .flags polygon:nth-child(1){fill:#ff6b6b}
+.s6-bunting .flags polygon:nth-child(2){fill:#ffd93d}
+.s6-bunting .flags polygon:nth-child(3){fill:#6bc5ff}
+.s6-bunting .flags polygon:nth-child(4){fill:#ff9ef0}
+.s6-bunting .flags polygon:nth-child(5){fill:#68ff98}
+.s6-bunting .flags polygon:nth-child(6){fill:#ffa36b}
+.s6-bunting .flags polygon:nth-child(7){fill:#ffd93d}
+.s6-bunting .flags polygon:nth-child(8){fill:#6bc5ff}
+.s6-bunting .flags polygon:nth-child(9){fill:#ff6b6b}
+.s6-bunting .flags polygon:nth-child(10){fill:#9efff0}
+.s6-bunting .flags polygon:nth-child(11){fill:#ff9ef0}
+.s6-bunting .flags polygon:nth-child(12){fill:#ffd93d}
+
+.s6-title{
+  margin-top:88px;
+  font-weight:900; color:#ffd7fb;
+  text-shadow:0 6px 18px #0006;
+  font-size:clamp(26px,6vw,44px);
+}
+
+.gift-btn{
+  margin:28px auto 10px;
+  background:transparent; border:0; padding:0; cursor:pointer;
+  filter:drop-shadow(0 20px 60px rgba(0,0,0,.5));
+  transform:translateZ(0);
+  transition:transform .18s ease;
+  outline:none;
+}
+.gift-btn img{
+  width:min(260px,70vw); height:auto; display:block;
+}
+.gift-btn:active{ transform:scale(.98); }
+
+.gift-btn.bounce{ animation:giftPop .9s cubic-bezier(.2,.7,.2,1); }
+@keyframes giftPop{
+  0%{ transform:scale(1); }
+  30%{ transform:scale(1.12); }
+  60%{ transform:scale(.96); }
+  100%{ transform:scale(1); }
+}
+
+.s6-sub{
+  color:#ffe3fb; font-weight:700;
+  text-shadow:0 6px 18px #ff6bb333;
+  font-size:clamp(16px,4.5vw,22px);
+}
+/* === Mobile Adjustment: Move Cake Upwards === */
+@media (max-width: 600px) {
+  .cake-illustration {
+    bottom: -120px; /* raises the cake compared to PC */
+    width: 90vw;    /* optional: slightly larger for mobile */
+  }
+
+  .cake-flame {
+    bottom: calc(44% + 11px); /* aligns flame with new cake position */
+  }
+}
+/* === Scene 6 Fixes: Mobile Text & Decorations === */
+#scene6 {
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><g opacity=".12"><path d="M60 42 c-8 -12 -28 -10 -28 8 0 14 14 22 28 34 14 -12 28 -20 28 -34 0 -18 -20 -20 -28 -8z" fill="white"/></g></svg>') repeat,
+    radial-gradient(120vmax 120vmax at 80% 15%, #ff007022, transparent 35%),
+    radial-gradient(120vmax 120vmax at 15% 90%, #7600ff22, transparent 35%),
+    linear-gradient(180deg, #140a17, #09070f);
+  background-size: 120px 120px, auto, auto, auto;
+}
+
+/* Ensure the cake stage is centered neatly */
+#scene6 .stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Scale birthday text responsively */
+#scene6 .big-title {
+  font-weight: 1000;
+  text-align: center;
+  color: #ffd0f6;
+  text-shadow: 0 6px 24px #ff6bb366;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: clamp(20px, 6vw, 46px);
+  line-height: 1.2;
+}
+
+/* On smaller devices, adjust text and cake slightly */
+@media (max-width: 600px) {
+  #scene6 .big-title {
+    font-size: clamp(18px, 8vw, 36px);
+    padding: 0 12px;
+  }
+
+  #scene6 .cake-illustration {
+    bottom: -110px;        /* raise cake for small screens */
+    width: 90vw;
+  }
+
+  #scene6 .cake-flame {
+    bottom: calc(44% + 11px);
+  }
+}
+/* ===== bunting alignment helper ===== */
+
+/* default bunting (full width) */
+.bunting {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 120px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s ease, transform .35s ease, left .25s ease, width .25s ease, top .25s ease;
+  transform: translateY(-6px);
+  z-index: 800;
+}
+
+/* visible state (fades in) */
+.bunting.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* region mode: bunting sized to stage (left + width set inline by JS) */
+.bunting.region {
+  /* keep it fixed but width/left will be set by JS */
+  right: auto;
+  margin: 0;
+  will-change: left, width, top;
+  /* keep internal svg centered within the given width */
+  display: block;
+}
+
+/* small scale tweak for tiny screens (optional) */
+@media (max-width: 420px) {
+  .bunting svg { transform-origin: center top; }
+}
+
+/* optional safe top for small status bars */
+.bunting.safe-top { top: 6px !important; }
+/* ---------- MOVING HEART GRID FOR ALL SCENES ---------- */
+/* Reuse existing hearts-bg layers and animate their background-position */
+.hearts-bg,
+.scene.moving-hearts {
+  /* keep existing layering; ensure positions are animatable */
+  background-size: 120px 120px, 80px 80px, 80px 80px, auto, auto, auto;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  animation: heartsGridMove 28s linear infinite;
+}
+
+/* slightly different speed when decor-on is active for subtle parallax */
+.decor-on.scene.moving-hearts {
+  animation-duration: 20s;
+}
+
+/* keyframes: move the repeated SVG grid and the two linear gradients independently
+   so movement looks layered and organic */
+@keyframes heartsGridMove{
+  0%{
+    background-position: 0px 0px, 0px 0px, 0px 0px, 0 0, 0 0, 0 0;
+  }
+  50%{
+    /* move the heart SVG grid left/up, the 1px grid layers opposite, and nudges for radial layers */
+    background-position: -420px -120px, 240px 80px, -160px 60px, 0 0, 30px -20px, -28px 16px;
+  }
+  100%{
+    background-position: 0px 0px, 0px 0px, 0px 0px, 0 0, 0 0, 0 0;
+  }
+}
+
+/* small optimization: reduce repaints by using will-change */
+.scene.moving-hearts {
+  will-change: background-position;
+}

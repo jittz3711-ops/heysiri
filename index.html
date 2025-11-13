@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday!</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- SCENE 1: RED HEART LOADER -->
+  <section id="scene1" class="scene">
+    <div class="box"><canvas id="pinkboard"></canvas></div>
+    <p>Loading your surprise…</p>
+  </section>
+
+  <!-- SCENE 2: INTRO -->
+  <section id="scene2" class="scene active">
+    <div class="intro">
+      <img class="photo" src="panda.png" alt="Cute panda holding a heart"/>
+      <h2 class="headline">A Shonnu was born today, 21 years ago!</h2>
+      <p class="sub">Yes, it’s <b>YOU</b>! A little surprise awaits…</p>
+      <button class="pill cta" id="startBtn"><span>Start the surprise</span></button>
+    </div>
+  </section>
+
+  <!-- SCENE 3: CAKE -->
+  <section id="scene3" class="scene hearts-bg">
+    <div id="bunting" class="bunting" aria-hidden="true">
+      <svg viewBox="0 0 1000 140" preserveAspectRatio="none">
+        <path d="M0,35 C220,110 780,110 1000,35" fill="none" stroke="#ff73a1" stroke-width="8"/>
+        <g id="flags">
+          <polygon class="f" points="70,55 110,55 90,120"/>
+          <polygon class="f" points="150,77 190,77 170,142"/>
+          <polygon class="f" points="230,56 270,56 250,121"/>
+          <polygon class="f" points="310,78 350,78 330,143"/>
+          <polygon class="f" points="390,58 430,58 410,123"/>
+          <polygon class="f" points="470,80 510,80 490,145"/>
+          <polygon class="f" points="550,58 590,58 570,123"/>
+          <polygon class="f" points="630,80 670,80 650,145"/>
+          <polygon class="f" points="710,58 750,58 730,123"/>
+          <polygon class="f" points="790,80 830,80 810,145"/>
+          <polygon class="f" points="870,58 910,58 890,123"/>
+          <polygon class="f" points="940,78 980,78 960,143"/>
+        </g>
+      </svg>
+      <div class="streamer left"></div>
+      <div class="streamer right"></div>
+    </div>
+
+    <div class="stage">
+      <div class="plate">
+        <div class="cake-illustration">
+          <img class="cake-flame" src="fire.gif" alt="Candle Flame" style="display:none;" />
+          <img id="cakeImg" class="cake-img" src="cake.png" alt="Birthday Cake" />
+        </div>
+        <h1 id="bigTitle" class="big-title">Happy Birthday, Siri🤍!</h1>
+      </div>
+
+      <div class="controls">
+        <button class="pill primary" id="actionBtn"><span>Decorate</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 4: BALLOONS → SCRATCH CARD -->
+  <section id="scene4" class="scene hearts-bg">
+    <div class="stage">
+      <div id="balloonField" class="balloon-field">
+        <img class="balloon" src="balloon1.png" alt="balloon 1">
+        <img class="balloon" src="balloon2.png" alt="balloon 2">
+        <img class="balloon" src="balloon3.png" alt="balloon 3">
+        <img class="balloon" src="balloon4.png" alt="balloon 4">
+        <img class="balloon" src="balloon5.png" alt="balloon 5">
+        <p class="hint">Tap & pop all 5 balloons 🎈</p>
+      </div>
+
+      <!-- Scratch card (full-pixel image; tip shows only after balloons done) -->
+      <div id="scratchWrap" class="scratch-wrap" hidden>
+        <div class="scratch-card">
+          <img id="scratchImg" src="reveal.jpg" alt="Surprise" />
+          <canvas id="scratchCanvas"></canvas>
+        </div>
+        <div id="scratchTip" class="scratch-tip" style="display:none;">Scratch here</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 5: SPECIAL MESSAGE -->
+  <section id="scene5" class="scene hearts-bg">
+    <div class="stage">
+      <div class="msg-wrap">
+        <h2 class="msg-title">A Special Message</h2>
+
+        <!-- Book card -->
+        <div class="msg-card book" id="bookCard">
+          <!-- FRONT COVER (tap to open) -->
+          <button class="cover" id="bookCover" aria-label="Open message">
+            <img class="cover-img" src="balloons-hero.png" alt=""/>
+            <span class="cover-tap">Tap to open</span>
+          </button>
+
+          <!-- MESSAGE inside (reveals when cover opens) -->
+          <div class="msg-body" id="bookMessage">
+            <h3>Happy Birthday, Siri 🤍</h3>
+            <p>
+              You light up every room you walk into. I hope this year brings
+              you giggles, cozy moments, and all the little surprises that make
+              your heart smile. You deserve the sweetest days — today and always.
+              On your birthday, I just want to remind you how precious you are to me. 
+              Your smile, your heart, your presence — it’s everything. 
+              May your life be filled with the same love and happiness you give to others.
+              Happy Birthday, my Shonnu. ✨❤️
+            </p>
+          </div>
+        </div>
+
+        <!-- NEXT button (hidden until message revealed) -->
+        <button id="nextBtn" class="pill primary" style="display:none; margin-top:18px;">
+          Next ✧
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 6: ONE LAST THING -->
+<section id="scene6" class="scene hearts-bg">
+  <div class="stage">
+    <div class="s6-wrap">
+
+      <!-- bunting -->
+      <div class="s6-bunting" aria-hidden="true">
+        <svg viewBox="0 0 1000 140" preserveAspectRatio="none">
+          <path d="M0,35 C220,110 780,110 1000,35" fill="none" stroke="#ff73a1" stroke-width="8"/>
+          <g class="flags">
+            <polygon points="70,55 110,55 90,120"/>
+            <polygon points="150,77 190,77 170,142"/>
+            <polygon points="230,56 270,56 250,121"/>
+            <polygon points="310,78 350,78 330,143"/>
+            <polygon points="390,58 430,58 410,123"/>
+            <polygon points="470,80 510,80 490,145"/>
+            <polygon points="550,58 590,58 570,123"/>
+            <polygon points="630,80 670,80 650,145"/>
+            <polygon points="710,58 750,58 730,123"/>
+            <polygon points="790,80 830,80 810,145"/>
+            <polygon points="870,58 910,58 890,123"/>
+            <polygon points="940,78 980,78 960,143"/>
+          </g>
+        </svg>
+      </div>
+
+      <h2 class="s6-title">One Last Thing…</h2>
+
+      <button id="giftBtn" class="gift-btn" aria-label="Open the gift">
+        <img src="gift.png" alt="Gift box"/>
+      </button>
+
+      <p class="s6-sub">Tap the gift</p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Effects -->
+  <canvas id="confetti"></canvas>
+  <canvas id="fireworks"></canvas>
+  <!-- Background audio for cake scene -->
+<audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
+</body>
+</html>
